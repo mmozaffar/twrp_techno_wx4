@@ -21,7 +21,7 @@ before_script:
   - tar -xJf twrp.tar.xz --directory $HOME/twrp/ && rm twrp.tar.xz
 script:
   # Replace your $$USERNAME$$, $$REPO_URL$$, $$BRAND$$, $$DEVICE$$
-  - cd $HOME/twrp/ && git clone https://github.com/$$USERNAME$$/$$REPO_URL$$.git device/TECNO/REL
+  - cd $HOME/twrp/ && git clone https://github.com/mmozaffar/twrp_techno_wx4.git device/TECNO/REL
   - rm -rf bootable/recovery && git clone https://github.com/omnirom/android_bootable_recovery -b android-9.0 --depth 1 bootable/recovery
   - |
     docker run --rm -i -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) -v "$(pwd):/home/builder/twrp/:rw,z" -v "${HOME}/.ccache:/srv/ccache:rw,z" fr3akyphantom/droid-builder bash << EOF
@@ -35,7 +35,7 @@ script:
     EOF
 after_success:
   - export version=$(cat bootable/recovery/variables.h | grep "define TW_MAIN_VERSION_STR" | cut -d '"' -f2)
-  - cp $HOME/twrp/out/target/product/$$DEVICE$$/recovery.img $HOME/twrp/TWRP-$version-$$DEVICE$$-$(date +"%Y%m%d")-Unofficial.img
+  - cp $HOME/twrp/out/target/product/REL/recovery.img $HOME/twrp/TWRP-$version-REL-$(date +"%Y%m%d")-Unofficial.img
   - cd $HOME/twrp/
   # Optional: You might need to switch from https://transfer.sh to https://file.io
   # - curl -s --upload-file TWRP-$version-$$DEVICE$$-$(date +"%Y%m%d")-Unofficial.img https://transfer.sh/ && echo ""
@@ -48,7 +48,7 @@ deploy:
   file: $HOME/twrp/*.img
   on:
     tags: false
-    repo: $$USERNAME$$/$$REPO_URL$$ # Optional: If you want to deploy on different repository
+    repo: mmozaffar/twrp_techno_wx4 # Optional: If you want to deploy on different repository
     branch: master # Optional: Needs to be exact as the config branch
 branches:
   only:
